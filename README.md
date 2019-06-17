@@ -3,17 +3,17 @@
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-elm using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-elm-webpack using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-elm
+npm install -g generator-elm-webpack
 ```
 
 Then generate your new project:
 
 ```bash
-yo elm
+yo elm-webpack
 ```
 
 ## Getting To Know Yeoman
@@ -26,11 +26,3 @@ yo elm
 ## License
 
 MIT © [Worble]()
-
-
-[npm-image]: https://badge.fury.io/js/generator-elm.svg
-[npm-url]: https://npmjs.org/package/generator-elm
-[travis-image]: https://travis-ci.org/Worble/generator-elm.svg?branch=master
-[travis-url]: https://travis-ci.org/Worble/generator-elm
-[daviddm-image]: https://david-dm.org/Worble/generator-elm.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/Worble/generator-elm
