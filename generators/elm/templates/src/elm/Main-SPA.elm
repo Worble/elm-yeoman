@@ -26,7 +26,7 @@ init _ url key =
             toRoute <| Url.toString url
 
         model =
-            Model key route (HomePage (HomeModel "Hello Worlds"))
+            Model key route (HomePage (HomeModel "Hello World"))
 
         initial =
             routeHandler model route
@@ -141,7 +141,7 @@ routeModel : Model -> Route -> Model
 routeModel model route =
     case route of
         Home ->
-            { model | child = HomePage (HomeModel "Hello Worlds") }
+            { model | child = HomePage (HomeModel "Hello World") }
 
         NotFound ->
             { model | child = NotFoundPage }

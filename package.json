@@ -1,7 +1,7 @@
 {
   "name": "generator-elm",
-  "version": "0.0.0",
-  "description": "Generates a variety of Elm applications",
+  "version": "1.0.0",
+  "description": "Generates a customizable Elm application",
   "homepage": "",
   "author": {
     "name": "Worble",

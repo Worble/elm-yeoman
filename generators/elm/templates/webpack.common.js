@@ -1,22 +1,25 @@
 const path = require('path')
+const {
+    CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
         app: [
-            './src/index.ts'
+            <% if (typescript) { %> './src/index.ts' <% } else { %> './src/index.js'<% } %>
         ]
-    },
-
+    },<% if (typescript) { %>
+    
     module: {
         rules: [{
             test: /\.ts$/,
             use: ['ts-loader'],
             exclude: /node_modules/
         }]
-    },
-
+    },<% } %>
+    
     resolve: {
-        extensions: [".js", ".ts", ".elm", ".css", ".scss"]
+        extensions: [".js", <% if (typescript) { %> ".ts", <% } %>".elm", ".css"<% if (sass) { %>, ".scss" <% } %>]
     },
 
     output: {
@@ -24,9 +27,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
 
-    resolveLoader: {
-        alias: {
-            'elm-loader': path.join(__dirname, 'loaders', 'elm-webpack-loader', 'index.js')
-        }
-    }
+    plugins: [
+        new CleanWebpackPlugin()
+    ]
 };

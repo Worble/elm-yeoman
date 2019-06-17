@@ -2,15 +2,30 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="This is a description">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Main</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="This is a description">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <% if(pwa || serviceWorker) { %><meta name="theme-color" content="#ffffff" /><% } %>
+  <% if(pwa) { %><link rel="manifest" href="manifest.json"><% } %>
+  <% if(pwa || serviceWorker) { %><link rel="script" href="service-worker.js"><% } %>
+  <title>Elm App</title>
 </head>
 
 <body>
-    <div id="elm"></div>
+  <div id="elm"></div>
+  <script>
+  <% if(pwa || serviceWorker) { %>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                console.log('SW registered: ', registration);
+            }).catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+            });
+        });
+    }<% } %>
+</script>
 </body>
 
 </html>
