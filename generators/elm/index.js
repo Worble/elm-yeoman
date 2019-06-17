@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 "use strict";
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
@@ -7,7 +8,11 @@ module.exports = class extends Generator {
   prompting() {
     // Have Yeoman greet the user.
     this.log(
-      yosay(`Welcome to the splendid ${chalk.red("generator-elm")} generator!`)
+      yosay(
+        `Welcome to the splendid ${chalk.red(
+          "generator-elm-webpack"
+        )} generator!`
+      )
     );
 
     const prompts = [
@@ -15,60 +20,69 @@ module.exports = class extends Generator {
         type: "confirm",
         name: "sass",
         message: "Would you like to enable SASS compilation?",
-        default: false
+        default: false,
+        store: true
       },
       {
         type: "confirm",
         name: "smacss",
         message: "Would you like to to scaffold a SMACSS template?",
         default: false,
-        when: answers => answers.sass
+        when: answers => answers.sass,
+        store: true
       },
       {
         type: "confirm",
         name: "typescript",
         message: "Would you like to enable TypeScript compilation?",
-        default: false
+        default: false,
+        store: true
       },
       {
         type: "confirm",
         name: "customLoader",
         message:
-          "The current maintainer for elm-webpack-loader on github seems to be AWOL, would you like to use a custom elm webpack loader, which includes vulnerability patches, debug mode in development and better  compression in production? (If you get 'ReferenceError: primordials is not defined' when building, this custom loader may fix the issue)",
-        default: false
+          "The current maintainer for elm-webpack-loader on github seems to be AWOL, would you like to use a modified elm webpack loader, which includes vulnerability patches, debug mode in development and better  compression in production? (If you get 'ReferenceError: primordials is not defined' when building, this custom loader may fix the issue)",
+        default: false,
+        store: true
       },
       {
         type: "confirm",
         name: "spa",
         message:
           "Would you like to create a Single Page Application boilerplate?",
-        default: false
+        default: false,
+        store: true
       },
       {
         type: "confirm",
         name: "serviceWorker",
         message:
           "Would you like to enable to enable a serviceworker for offline caching?",
-        default: false
+        default: false,
+        store: true
       },
       {
         type: "confirm",
         name: "pwa",
         message: "Would you like to enable Progressive Web App boilerplate?",
-        default: false
+        default: false,
+        store: true
       },
       {
         type: "confirm",
         name: "compression",
         message: "Would you like to enable compressed assets for production?",
-        default: false
+        default: false,
+        store: true
       },
       {
         type: "confirm",
         name: "brotli",
         message: `Would you like to enable brotli for compression? (Requires Node >= 11.7.0, you are on ${process.versions.node})`,
         default: false,
-        when: answers => answers.compression
+        when: answers => answers.compression,
+        store: true
       }
     ];
 
@@ -79,6 +93,12 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    this._write_package_json();
+    this._write_elm_json();
+    this._copy_files();
+  }
+
+  _write_package_json() {
     // START PKG JSON
     // DEPENDENCIES
     let pkgJson = {
@@ -178,7 +198,9 @@ module.exports = class extends Generator {
     // END SCRIPTS
 
     // END PKG JSON
+  }
 
+  _write_elm_json() {
     // START ELM JSON
     let elmJson = {
       type: "application",
@@ -225,7 +247,9 @@ module.exports = class extends Generator {
     }
     this.fs.extendJSON(this.destinationPath("elm.json"), extraElmJson);
     // END ELM JSON
+  }
 
+  _copy_files() {
     // COPY FILES
     // GITIGNORE
     this.fs.copy(
@@ -367,6 +391,16 @@ module.exports = class extends Generator {
         this.destinationPath("static/icons/icon-512x512.png")
       );
     }
+
+    // README
+    this.fs.copyTpl(
+      this.templatePath("README.md"),
+      this.destinationPath("README.md"),
+      {
+        customLoader: this.props.customLoader,
+        typescript: this.props.typescript
+      }
+    );
 
     // END COPY FILES
   }

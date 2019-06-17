@@ -17,7 +17,10 @@ module.exports = merge(common, {
       {
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
-        use: ["elm-webpack-loader"]
+        loader: "elm-webpack-loader",
+        options: {
+            debug: true
+        }
       },
       {
         test: /\.(css<% if (sass) { %>|sass|scss<% } %>)$/,

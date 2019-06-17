@@ -1,6 +1,6 @@
-# generator-elm [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> Generates a variety of Elm applications
+> Generates a customizable Elm application
 
+<strike>
 ## Installation
 
 First, install [Yeoman](http://yeoman.io) and generator-elm-webpack using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
@@ -15,13 +15,17 @@ Then generate your new project:
 ```bash
 yo elm-webpack
 ```
+</strike>
 
-## Getting To Know Yeoman
+## Installation Options
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
+- SASS compilation (with optional SMACSS template)
+- Typescript compilation with Elm Typescript Interop
+- A modified elm webpack loader with a few updates since the maintainer appears to be AWOL
+- SPA template
+- Service Worker for caching and offline use
+- PWA template
+- Compression (with gzip or brotli)
 
 ## License
 
