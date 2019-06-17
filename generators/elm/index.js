@@ -34,7 +34,7 @@ module.exports = class extends Generator {
         type: "confirm",
         name: "customLoader",
         message:
-          "The current maintainer for elm-webpack-loader on github seems to be AWOL, would you like to use a custom elm webpack loader, which includes vulnerability patches, debug mode in development and better  compression in production?",
+          "The current maintainer for elm-webpack-loader on github seems to be AWOL, would you like to use a custom elm webpack loader, which includes vulnerability patches, debug mode in development and better  compression in production? (If you get 'ReferenceError: primordials is not defined' when building, this custom loader may fix the issue)",
         default: false
       },
       {
@@ -56,6 +56,19 @@ module.exports = class extends Generator {
         name: "pwa",
         message: "Would you like to enable Progressive Web App boilerplate?",
         default: false
+      },
+      {
+        type: "confirm",
+        name: "compression",
+        message: "Would you like to enable compressed assets for production?",
+        default: false
+      },
+      {
+        type: "confirm",
+        name: "brotli",
+        message: `Would you like to enable brotli for compression? (Requires Node >= 11.7.0, you are on ${process.versions.node})`,
+        default: false,
+        when: answers => answers.compression
       }
     ];
 
@@ -85,13 +98,6 @@ module.exports = class extends Generator {
         "webpack-cli": "^3.1.2",
         "webpack-dev-server": "^3.1.9",
         "webpack-merge": "^4.1.4"
-      },
-      scripts: {
-        dev: "elm-typescript-interop && webpack --config webpack.dev.js",
-        serve:
-          "elm-typescript-interop && webpack-dev-server --open --config webpack.dev.js",
-        test: "elm-test",
-        prod: "elm-typescript-interop && webpack --config webpack.prod.js"
       }
     };
     this.fs.extendJSON(this.destinationPath("package.json"), pkgJson);
@@ -117,24 +123,19 @@ module.exports = class extends Generator {
       this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonSass);
     }
 
-    let pkgJsonCustomLoader = {};
+    let pkgJsonLoader = {
+      devDependencies: {
+        "elm-webpack-loader": "^5.0.0"
+      }
+    };
     if (this.props.customLoader) {
-      pkgJsonCustomLoader = {
+      pkgJsonLoader = {
         devDependencies: {
           "elm-webpack-loader": "https://github.com/Worble/elm-webpack-loader"
         }
       };
-    } else {
-      pkgJsonCustomLoader = {
-        devDependencies: {
-          "elm-webpack-loader": "^5.0.0"
-        }
-      };
     }
-    this.fs.extendJSON(
-      this.destinationPath("package.json"),
-      pkgJsonCustomLoader
-    );
+    this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonLoader);
 
     if (this.props.serviceWorker || this.props.pwa) {
       let pkgJsonServiceWorker = {
@@ -147,13 +148,25 @@ module.exports = class extends Generator {
         pkgJsonServiceWorker
       );
     }
+
+    if (this.props.compression) {
+      let pkgJsonCompression = {
+        devDependencies: {
+          "compression-webpack-plugin": "^3.0.0"
+        }
+      };
+      this.fs.extendJSON(
+        this.destinationPath("package.json"),
+        pkgJsonCompression
+      );
+    }
     // END DEPENDENCIES
 
     // START SCRIPTS
     let tsInteropString = this.props.typescript
       ? "elm-typescript-interop && "
       : "";
-    pkgJson = {
+    let pkgJsonScripts = {
       scripts: {
         dev: `${tsInteropString}webpack --config webpack.dev.js`,
         serve: `${tsInteropString}webpack-dev-server --open --config webpack.dev.js`,
@@ -161,7 +174,7 @@ module.exports = class extends Generator {
         prod: `${tsInteropString}webpack --config webpack.prod.js`
       }
     };
-    this.fs.extendJSON(this.destinationPath("package.json"), pkgJson);
+    this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonScripts);
     // END SCRIPTS
 
     // END PKG JSON
@@ -333,7 +346,9 @@ module.exports = class extends Generator {
       {
         sass: this.props.sass,
         pwa: this.props.pwa,
-        serviceWorker: this.props.serviceWorker
+        serviceWorker: this.props.serviceWorker,
+        compression: this.props.compression,
+        brotli: this.props.brotli
       }
     );
 

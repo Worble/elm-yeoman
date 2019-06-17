@@ -1,5 +1,5 @@
 {
-  "name": "generator-elm",
+  "name": "generator-elm-webpack",
   "version": "1.0.0",
   "description": "Generates a customizable Elm application",
   "homepage": "",

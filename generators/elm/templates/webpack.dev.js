@@ -21,7 +21,7 @@ module.exports = merge(common, {
       },
       {
         test: /\.(css<% if (sass) { %>|sass|scss<% } %>)$/,
-        use: ["style-loader", "css-loader", <% if (sass) { %>"sass-loader"<% } %>]
+        use: ["style-loader", "css-loader"<% if (sass) { %>, "sass-loader"<% } %>]
       }
     ]
   },
@@ -43,10 +43,9 @@ module.exports = merge(common, {
     new CopyWebpackPlugin([{
         from: path.join(__dirname, 'static')
     }]),
-    <% if (pwa || serviceWorker) { %>
-    new GenerateSW({
+    <% if (pwa || serviceWorker) { %>new GenerateSW({
         clientsClaim: true,
         skipWaiting: true,
-    })<% } %>
+    }),<% } %>
   ]
 });

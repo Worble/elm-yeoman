@@ -5,10 +5,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-<% if (pwa || serviceWorker) { %>
-const {
+<% if (pwa || serviceWorker) { %>const {
     GenerateSW
 } = require('workbox-webpack-plugin');<% } %>
+<% if (compression) { %>const CompressionPlugin = require("compression-webpack-plugin");<% } %>
 
 module.exports = merge(common, {
   mode: "production",
@@ -25,7 +25,7 @@ module.exports = merge(common, {
       },
       {
         test: /\.(css<% if (sass) { %>|sass|scss<% } %>)$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", <% if (sass) { %>"sass-loader"<% } %>]
+        use: [MiniCssExtractPlugin.loader, "css-loader"<% if (sass) { %>, "sass-loader"<% } %>]
       }
     ]
   },
@@ -60,11 +60,14 @@ module.exports = merge(common, {
     new CopyWebpackPlugin([{
         from: path.join(__dirname, 'static')
     }]),
-    <% if (pwa || serviceWorker) { %>
-    new GenerateSW({
+    <% if (pwa || serviceWorker) { %>new GenerateSW({
         clientsClaim: true,
         skipWaiting: true,
         importWorkboxFrom: 'local'
-    })<% } %>
+    }),<% } %>
+    <% if (compression) { %>new CompressionPlugin({
+        deleteOriginalAssets: true<% if (brotli) { %>,
+        algorithm: "brotliCompress"<% } %>
+    }),<% } %>
   ]
 });
