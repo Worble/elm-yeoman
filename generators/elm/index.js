@@ -40,6 +40,14 @@ module.exports = class extends Generator {
       },
       {
         type: "confirm",
+        name: "elmTypescriptInterop",
+        message:
+          "Would you like to add Elm-TypeScript-Interop? This is a nice to have but it can be a little buggy and outdated.",
+        default: false,
+        store: true
+      },
+      {
+        type: "confirm",
         name: "customLoader",
         message:
           "The current maintainer for elm-webpack-loader on github seems to be AWOL, would you like to use a modified elm webpack loader, which includes vulnerability patches, debug mode in development and better  compression in production? (If you get 'ReferenceError: primordials is not defined' when building, this custom loader may fix the issue)",
@@ -105,19 +113,19 @@ module.exports = class extends Generator {
       devDependencies: {
         "clean-webpack-plugin": "^3.0.0",
         "copy-webpack-plugin": "^5.0.3",
-        "css-loader": "^1.0.0",
+        "css-loader": "^3.0.0",
         elm: "0.19.0-no-deps",
-        "elm-test": "0.19.0-beta10",
+        "elm-test": "0.19.0",
         "elm-analyse": "^0.16.4",
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
-        "mini-css-extract-plugin": "^0.4.4",
+        "mini-css-extract-plugin": "^0.7.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
         "style-loader": "^0.23.1",
-        webpack: "^4.20.2",
-        "webpack-cli": "^3.1.2",
-        "webpack-dev-server": "^3.1.9",
-        "webpack-merge": "^4.1.4"
+        webpack: "^4.34.0",
+        "webpack-cli": "^3.3.4",
+        "webpack-dev-server": "^3.7.1",
+        "webpack-merge": "^4.2.1"
       }
     };
     this.fs.extendJSON(this.destinationPath("package.json"), pkgJson);
@@ -125,18 +133,29 @@ module.exports = class extends Generator {
     if (this.props.typescript) {
       let pkgJsonTS = {
         devDependencies: {
-          "elm-typescript-interop": "^0.0.15",
-          "ts-loader": "^5.3.3",
-          typescript: "^3.2.2"
+          "ts-loader": "^6.0.2",
+          typescript: "^3.5.2"
         }
       };
       this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonTS);
     }
 
+    if (this.props.elmTypescriptInterop) {
+      let pkgJsonElmTsInterop = {
+        devDependencies: {
+          "elm-typescript-interop": "^0.0.15"
+        }
+      };
+      this.fs.extendJSON(
+        this.destinationPath("package.json"),
+        pkgJsonElmTsInterop
+      );
+    }
+
     if (this.props.sass) {
       let pkgJsonSass = {
         devDependencies: {
-          "node-sass": "^4.9.4",
+          "node-sass": "^4.12.0",
           "sass-loader": "^7.1.0"
         }
       };
@@ -183,7 +202,7 @@ module.exports = class extends Generator {
     // END DEPENDENCIES
 
     // START SCRIPTS
-    let tsInteropString = this.props.typescript
+    let tsInteropString = this.props.elmTypescriptInterop
       ? "elm-typescript-interop && "
       : "";
     let pkgJsonScripts = {
@@ -289,7 +308,10 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath("src/index.ts"),
         this.destinationPath("src/index.ts"),
-        { sass: this.props.sass }
+        {
+          sass: this.props.sass,
+          elmTypescriptInterop: this.props.elmTypescriptInterop
+        }
       );
 
       this.fs.copy(
