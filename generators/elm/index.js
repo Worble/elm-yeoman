@@ -122,6 +122,7 @@ module.exports = class extends Generator {
         "mini-css-extract-plugin": "^0.7.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
         "style-loader": "^0.23.1",
+        "uglifyjs-webpack-plugin": "^2.1.3",
         webpack: "^4.34.0",
         "webpack-cli": "^3.3.4",
         "webpack-dev-server": "^3.7.1",
@@ -208,7 +209,7 @@ module.exports = class extends Generator {
     let pkgJsonScripts = {
       scripts: {
         dev: `${tsInteropString}webpack --config webpack.dev.js`,
-        serve: `${tsInteropString}webpack-dev-server --open --config webpack.dev.js`,
+        serve: `${tsInteropString}webpack-dev-server -d --open --config webpack.dev.js`,
         test: "elm-test",
         prod: `${tsInteropString}webpack --config webpack.prod.js`
       }

@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 <% if (pwa || serviceWorker) { %>const {
     GenerateSW
 } = require('workbox-webpack-plugin');<% } %>
@@ -12,6 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(common, {
   mode: "production",
+  devtool: "source-map",
 
   module: {
     rules: [
@@ -23,28 +25,55 @@ module.exports = merge(common, {
           optimize: true
         }
       },
+
       {
         test: /\.(css<% if (sass) { %>|sass|scss<% } %>)$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"<% if (sass) { %>, "sass-loader"<% } %>]
+        
+        use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: { sourceMap: true }
+            },
+            {
+              loader: "css-loader",
+              options: {
+                sourceMap: true
+              }
+            }<% if (sass) { %>,
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: true
+              }
+            }<% } %>
+        ]
       }
     ]
   },
+
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // set to true if you want JS source maps
+      }),
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: {
+          sourceMap: true,
+          map: {
+            inline: false, // set to false if you want CSS source maps
+            annotation: true
+          }
+        }
+      })
+    ]
+  },
+  
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].min.css",
-      chunkFilename: "[id].min.css"
-    }),
-    new OptimizeCssAssetsPlugin({
-      cssProcessorPluginOptions: {
-        preset: [
-          "default",
-          {
-            discardComments: {
-              removeAll: true
-            }
-          }
-        ]
-      }
+      filename: "[name].[contenthash].min.css",
+      chunkFilename: "[id].[contenthash].min.css"
     }),
     new HtmlWebpackPlugin({
       template: "static/index.html",
