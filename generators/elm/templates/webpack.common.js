@@ -8,15 +8,24 @@ module.exports = {
         app: [
             <% if (typescript) { %> './src/index.ts' <% } else { %> './src/index.js'<% } %>
         ]
-    },<% if (typescript) { %>
+    },
     
     module: {
         rules: [{
+            test: /\.m?js$/,
+            exclude: /(node_modules|bower_components)/,
+            use: {
+              loader: "babel-loader",
+              options: {
+                presets: ["@babel/preset-env"]
+              }
+            }
+          }, <% if (typescript) { %>{
             test: /\.ts$/,
             use: ['ts-loader'],
             exclude: /node_modules/
-        }]
-    },<% } %>
+        }<% } %>]
+    },
     
     resolve: {
         extensions: [".js", <% if (typescript) { %> ".ts", <% } %>".elm", ".css"<% if (sass) { %>, ".scss" <% } %>]

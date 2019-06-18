@@ -20,23 +20,20 @@ module.exports = class extends Generator {
         type: "confirm",
         name: "sass",
         message: "Would you like to enable SASS compilation?",
-        default: false,
-        store: true
+        default: false
       },
       {
         type: "confirm",
         name: "smacss",
         message: "Would you like to to scaffold a SMACSS template?",
         default: false,
-        when: answers => answers.sass,
-        store: true
+        when: answers => answers.sass
       },
       {
         type: "confirm",
         name: "typescript",
         message: "Would you like to enable TypeScript compilation?",
-        default: false,
-        store: true
+        default: false
       },
       {
         type: "confirm",
@@ -44,53 +41,47 @@ module.exports = class extends Generator {
         message:
           "Would you like to add Elm-TypeScript-Interop? This is a nice to have but it can be a little buggy and outdated.",
         default: false,
-        store: true
+        when: answers => answers.typescript
       },
       {
         type: "confirm",
         name: "customLoader",
         message:
           "The current maintainer for elm-webpack-loader on github seems to be AWOL, would you like to use a modified elm webpack loader, which includes vulnerability patches, debug mode in development and better  compression in production? (If you get 'ReferenceError: primordials is not defined' when building, this custom loader may fix the issue)",
-        default: false,
-        store: true
+        default: false
       },
       {
         type: "confirm",
         name: "spa",
         message:
           "Would you like to create a Single Page Application boilerplate?",
-        default: false,
-        store: true
+        default: false
       },
       {
         type: "confirm",
         name: "serviceWorker",
         message:
           "Would you like to enable to enable a serviceworker for offline caching?",
-        default: false,
-        store: true
+        default: false
       },
       {
         type: "confirm",
         name: "pwa",
         message: "Would you like to enable Progressive Web App boilerplate?",
-        default: false,
-        store: true
+        default: false
       },
       {
         type: "confirm",
         name: "compression",
         message: "Would you like to enable compressed assets for production?",
-        default: false,
-        store: true
+        default: false
       },
       {
         type: "confirm",
         name: "brotli",
         message: `Would you like to enable brotli for compression? (Requires Node >= 11.7.0, you are on ${process.versions.node})`,
         default: false,
-        when: answers => answers.compression,
-        store: true
+        when: answers => answers.compression
       }
     ];
 
@@ -111,6 +102,9 @@ module.exports = class extends Generator {
     // DEPENDENCIES
     let pkgJson = {
       devDependencies: {
+        "@babel/core": "^7.4.5",
+        "@babel/preset-env": "^7.4.5",
+        "babel-loader": "^8.0.6",
         "clean-webpack-plugin": "^3.0.0",
         "copy-webpack-plugin": "^5.0.3",
         "css-loader": "^3.0.0",
