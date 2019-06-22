@@ -4,7 +4,8 @@
         "target": "es5",
         "lib": ["dom", "es6"],
         "strict": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "noEmitOnError": true
     },
     "exclude": ["node_modules", "typings", "dist"]
 }
