@@ -1,5 +1,7 @@
 > Generates a customizable Elm application
 
+This is largely just to replace the large boilerplate Elm repo I had.
+
 <strike>
 ## Installation
 
