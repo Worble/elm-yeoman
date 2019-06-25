@@ -273,8 +273,8 @@ module.exports = class extends Generator {
 
     // TESTS
     this.fs.copy(
-      this.templatePath("tests/example.elm"),
-      this.destinationPath("tests/example.elm")
+      this.templatePath("tests/Example.elm"),
+      this.destinationPath("tests/Example.elm")
     );
 
     // INDEX HTML

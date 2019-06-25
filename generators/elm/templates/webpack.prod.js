@@ -27,8 +27,7 @@ module.exports = merge(common, {
       },
 
       {
-        test: /\.(css<% if (sass) { %>|sass|scss<% } %>)$/,
-        
+        test: /\.(css<% if (sass) { %>|sass|scss<% } %>)$/,        
         use: [
             {
               loader: MiniCssExtractPlugin.loader,
