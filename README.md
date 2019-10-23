@@ -24,6 +24,7 @@ yo elm-webpack
 - SASS compilation (with optional SMACSS template)
 - Typescript compilation with Elm Typescript Interop
 - A modified elm webpack loader with a few updates since the maintainer appears to be AWOL
+- Hot reloading
 - SPA template
 - Service Worker for caching and offline use
 - PWA template

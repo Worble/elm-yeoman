@@ -111,6 +111,7 @@ module.exports = class extends Generator {
         elm: "0.19.0-no-deps",
         "elm-test": "0.19.0",
         "elm-analyse": "^0.16.4",
+        "elm-hot-webpack-loader": "^1.1.2",
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
         "mini-css-extract-plugin": "^0.7.0",

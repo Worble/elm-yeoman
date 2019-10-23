@@ -25,7 +25,6 @@ module.exports = merge(common, {
           optimize: true
         }
       },
-
       {
         test: /\.(css<% if (sass) { %>|sass|scss<% } %>)$/,        
         use: [

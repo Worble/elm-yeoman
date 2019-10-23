@@ -17,10 +17,15 @@ module.exports = merge(common, {
       {
         test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
-        loader: "elm-webpack-loader",
-        options: {
-            debug: true
-        }
+        use: [
+          { loader: 'elm-hot-webpack-loader' },
+          {
+            loader:"elm-webpack-loader",
+            options: {
+              debug: true
+            }
+          }
+        ]
       },
       {
         test: /\.(css<% if (sass) { %>|sass|scss<% } %>)$/,
@@ -30,6 +35,7 @@ module.exports = merge(common, {
   },
 
   devServer: {
+    hot: true,
     historyApiFallback: true,
     contentBase: "static",
     watchContentBase: true,

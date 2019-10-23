@@ -16,6 +16,7 @@ All distribution files can be found under `/dist`
   2. It allows the user to pass debug options to the elm compiler when building to enable the Elm-Debugger
   3. It fixes the major vulnerabilities as described in [this issue](https://github.com/elm-community/elm-webpack-loader/issues/171)
   4. It actually builds on Node versions higher than the current LTS (currently 10.16.0)
+   
    Hopefully these issues are temporary, and whenever they are resolved you can swap back to the original elm-webpack-loader by simply calling `npm elm-webpack-loader --save-dev` or `yarn add elm-webpack-loader --dev`.
 <% } %>
   
