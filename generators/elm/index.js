@@ -204,7 +204,7 @@ module.exports = class extends Generator {
     let pkgJsonScripts = {
       scripts: {
         dev: `${tsInteropString}webpack --config webpack.dev.js`,
-        serve: `${tsInteropString}webpack-dev-server -d --open --config webpack.dev.js`,
+        serve: `${tsInteropString}webpack-dev-server -d --config webpack.dev.js --open`,
         test: "elm-test",
         prod: `${tsInteropString}webpack --config webpack.prod.js`
       }
@@ -280,8 +280,8 @@ module.exports = class extends Generator {
 
     // INDEX HTML
     this.fs.copyTpl(
-      this.templatePath("static/index.html"),
-      this.destinationPath("static/index.html"),
+      this.templatePath("src/index.html"),
+      this.destinationPath("src/index.html"),
       { pwa: this.props.pwa, serviceWorker: this.props.serviceWorker }
     );
 
@@ -371,15 +371,18 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath("webpack.common.js"),
       this.destinationPath("webpack.common.js"),
-      { typescript: this.props.typescript, sass: this.props.sass }
+      {
+        typescript: this.props.typescript,
+        sass: this.props.sass,
+        pwa: this.props.pwa,
+        serviceWorker: this.props.serviceWorker
+      }
     );
     this.fs.copyTpl(
       this.templatePath("webpack.dev.js"),
       this.destinationPath("webpack.dev.js"),
       {
-        sass: this.props.sass,
-        pwa: this.props.pwa,
-        serviceWorker: this.props.serviceWorker
+        sass: this.props.sass
       }
     );
     this.fs.copyTpl(

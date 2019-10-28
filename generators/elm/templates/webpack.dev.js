@@ -1,17 +1,8 @@
-const path = require('path')
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-<% if (pwa || serviceWorker) { %>
-const {
-    GenerateSW
-} = require('workbox-webpack-plugin');<% } %>
 
 module.exports = merge(common, {
   mode: "development",
-
   module: {
     rules: [
       {
@@ -33,7 +24,6 @@ module.exports = merge(common, {
       }
     ]
   },
-
   devServer: {
     hot: true,
     historyApiFallback: true,
@@ -42,19 +32,5 @@ module.exports = merge(common, {
     watchOptions: {
       ignored: /node_modules/
     }
-  },
-
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template: "static/index.html"
-    }),
-    new CopyWebpackPlugin([{
-        from: path.join(__dirname, 'static')
-    }]),
-    <% if (pwa || serviceWorker) { %>new GenerateSW({
-        clientsClaim: true,
-        skipWaiting: true,
-    }),<% } %>
-  ]
+  }
 });
