@@ -4,6 +4,7 @@ const {
 } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 <% if (pwa || serviceWorker) { %>const {
 	GenerateSW
 } = require('workbox-webpack-plugin');<% } %>
@@ -40,6 +41,7 @@ module.exports = {
     },
     plugins: [
 			new CleanWebpackPlugin(),
+			new webpack.ProgressPlugin(),
 			new HtmlWebpackPlugin({
 				template: path.resolve(__dirname, 'src', 'index.html')
 			}),
