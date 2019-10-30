@@ -14,7 +14,7 @@ npm install -g @worble/generator-elm-webpack
 Then generate your new project:
 
 ```bash
-yo elm-webpack
+yo @worble/elm-webpack
 ```
 
 ## Installation Options
