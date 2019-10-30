@@ -3,6 +3,8 @@
 const Generator = require("yeoman-generator");
 const chalk = require("chalk");
 const yosay = require("yosay");
+const mkdirp = require("mkdirp");
+const path = require("path");
 
 module.exports = class extends Generator {
   prompting() {
@@ -396,6 +398,9 @@ module.exports = class extends Generator {
         brotli: this.props.brotli
       }
     );
+
+    // STATIC FOLDER
+    mkdirp.sync(path.join(this.destinationPath(), "static"));
 
     // PWA FILES
     if (this.props.pwa) {
