@@ -221,7 +221,7 @@ module.exports = class extends Generator {
     // START ELM JSON
     let elmJson = {
       type: "application",
-      "source-directories": ["src"],
+      "source-directories": ["src/elm"],
       "elm-version": "0.19.0",
       dependencies: {
         direct: {
