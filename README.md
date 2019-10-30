@@ -2,14 +2,13 @@
 
 This is largely just to replace the large boilerplate Elm repo I had.
 
-<strike>
 ## Installation
 
 First, install [Yeoman](http://yeoman.io) and generator-elm-webpack using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g generator-elm-webpack
+npm install -g @worble/generator-elm-webpack
 ```
 
 Then generate your new project:
@@ -17,7 +16,6 @@ Then generate your new project:
 ```bash
 yo elm-webpack
 ```
-</strike>
 
 ## Installation Options
 
