@@ -268,7 +268,7 @@ module.exports = class extends Generator {
     // COPY FILES
     // GITIGNORE
     this.fs.copy(
-      this.templatePath(".gitignore"),
+      this.templatePath("gitignore.npmsucks"),
       this.destinationPath(".gitignore")
     );
 
