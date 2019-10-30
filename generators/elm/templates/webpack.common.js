@@ -13,7 +13,7 @@ const webpack = require('webpack');
 module.exports = {
     entry: {
         app: [
-            <% if (typescript) { %>path.resolve(__dirname, "src", "index.ts") <% } else { %>path.resolve(__dirname, "src", "index.js"<% } %>
+            <% if (typescript) { %>path.resolve(__dirname, "src", "index.ts")<% } else { %>path.resolve(__dirname, "src", "index.js")<% } %>
         ]
     },    
     module: {
