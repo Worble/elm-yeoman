@@ -104,26 +104,26 @@ module.exports = class extends Generator {
     // DEPENDENCIES
     let pkgJson = {
       devDependencies: {
-        "@babel/core": "^7.4.5",
-        "@babel/preset-env": "^7.4.5",
+        "@babel/core": "^7.7.7",
+        "@babel/preset-env": "^7.7.7",
         "babel-loader": "^8.0.6",
         "clean-webpack-plugin": "^3.0.0",
-        "copy-webpack-plugin": "^5.0.3",
-        "css-loader": "^3.0.0",
-        elm: "0.19.0-no-deps",
-        "elm-test": "0.19.0",
-        "elm-analyse": "^0.16.4",
-        "elm-hot-webpack-loader": "^1.1.2",
+        "copy-webpack-plugin": "^5.1.1",
+        "css-loader": "^3.4.1",
+        elm: "0.19.1-3",
+        "elm-test": "0.19.1",
+        "elm-analyse": "^0.16.5",
+        "elm-hot-webpack-loader": "^1.1.6",
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
-        "mini-css-extract-plugin": "^0.7.0",
-        "optimize-css-assets-webpack-plugin": "^5.0.1",
-        "style-loader": "^0.23.1",
-        "uglifyjs-webpack-plugin": "^2.1.3",
-        webpack: "^4.34.0",
-        "webpack-cli": "^3.3.4",
-        "webpack-dev-server": "^3.7.1",
-        "webpack-merge": "^4.2.1"
+        "mini-css-extract-plugin": "^0.9.0",
+        "optimize-css-assets-webpack-plugin": "^5.0.3",
+        "style-loader": "^1.1.2",
+        "uglifyjs-webpack-plugin": "^2.2.0",
+        webpack: "^4.41.5",
+        "webpack-cli": "^3.3.10",
+        "webpack-dev-server": "^3.10.1",
+        "webpack-merge": "^4.2.2"
       }
     };
     this.fs.extendJSON(this.destinationPath("package.json"), pkgJson);
@@ -131,8 +131,8 @@ module.exports = class extends Generator {
     if (this.props.typescript) {
       let pkgJsonTS = {
         devDependencies: {
-          "ts-loader": "^6.0.2",
-          typescript: "^3.5.2"
+          "ts-loader": "^6.2.1",
+          typescript: "^3.7.4"
         }
       };
       this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonTS);
@@ -153,8 +153,8 @@ module.exports = class extends Generator {
     if (this.props.sass) {
       let pkgJsonSass = {
         devDependencies: {
-          "node-sass": "^4.12.0",
-          "sass-loader": "^7.1.0"
+          "node-sass": "^4.13.0",
+          "sass-loader": "^8.0.0"
         }
       };
       this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonSass);
@@ -162,7 +162,7 @@ module.exports = class extends Generator {
 
     let pkgJsonLoader = {
       devDependencies: {
-        "elm-webpack-loader": "^5.0.0"
+        "elm-webpack-loader": "^6.0.1"
       }
     };
     if (this.props.customLoader) {
@@ -172,6 +172,7 @@ module.exports = class extends Generator {
         }
       };
     }
+
     this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonLoader);
 
     if (this.props.serviceWorker || this.props.pwa) {
