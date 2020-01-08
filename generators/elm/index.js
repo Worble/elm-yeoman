@@ -84,6 +84,12 @@ module.exports = class extends Generator {
         message: `Would you like to enable brotli for compression? (Requires Node >= 11.7.0, you are on ${process.versions.node})`,
         default: false,
         when: answers => answers.compression
+      },
+      {
+        type: "confirm",
+        name: "docker",
+        message: "Add docker support?",
+        default: false
       }
     ];
 
@@ -212,6 +218,13 @@ module.exports = class extends Generator {
         prod: `${tsInteropString}webpack --config webpack.prod.js`
       }
     };
+
+    if (this.props.docker) {
+      pkgJsonScripts.scripts[
+        "docker-dev"
+      ] = `${tsInteropString}webpack-dev-server -d --config webpack.docker.js --open`;
+    }
+
     this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonScripts);
     // END SCRIPTS
 
@@ -263,6 +276,7 @@ module.exports = class extends Generator {
         }
       };
     }
+
     this.fs.extendJSON(this.destinationPath("elm.json"), extraElmJson);
     // END ELM JSON
   }
@@ -428,6 +442,24 @@ module.exports = class extends Generator {
         typescript: this.props.typescript
       }
     );
+
+    // DOCKER
+    if (this.props.docker) {
+      this.fs.copy(
+        this.templatePath(".dockerignore"),
+        this.destinationPath(".dockerignore")
+      );
+
+      this.fs.copy(
+        this.templatePath("Dockerfile"),
+        this.destinationPath("Dockerfile")
+      );
+
+      this.fs.copy(
+        this.templatePath("webpack.docker.dev.js"),
+        this.destinationPath("webpack.docker.dev.js")
+      );
+    }
 
     // END COPY FILES
   }
