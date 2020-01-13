@@ -1,17 +1,13 @@
 # docker.webpack
 FROM node:12-alpine as base
-
+RUN apk add git
 WORKDIR /app/
-
 FROM base as prereq
-
 COPY yarn.lock ./
 COPY package*.json ./
-
 RUN yarn
 
+
 FROM prereq as development
-
 EXPOSE 8080
-
-CMD ["yarn", "serve"]
+CMD ["yarn", "docker-dev"]

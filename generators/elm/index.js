@@ -451,8 +451,18 @@ module.exports = class extends Generator {
       );
 
       this.fs.copy(
-        this.templatePath("Dockerfile"),
-        this.destinationPath("Dockerfile")
+        this.templatePath("DockerfileDevelopment"),
+        this.destinationPath("DockerfileDevelopment")
+      );
+
+      this.fs.copy(
+        this.templatePath("DockerfileProduction"),
+        this.destinationPath("DockerfileProduction")
+      );
+
+      this.fs.copy(
+        this.templatePath("docker/nginx.conf"),
+        this.destinationPath("docker/nginx.conf")
       );
 
       this.fs.copy(
