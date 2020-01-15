@@ -101,7 +101,7 @@ module.exports = class extends Generator {
 
   writing() {
     if (this.options.path) {
-      this.destinationRoot(this.destinationPath(this.options.path));
+      this.destinationRoot(this.options.path);
     }
 
     this._write_package_json();
