@@ -7,6 +7,12 @@ const mkdirp = require("mkdirp");
 const path = require("path");
 
 module.exports = class extends Generator {
+  initializing() {
+    if (this.options.path) {
+      this.destinationRoot(this.destinationPath(this.options.path));
+    }
+  }
+
   prompting() {
     // Have Yeoman greet the user.
     this.log(
