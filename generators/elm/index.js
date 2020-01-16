@@ -39,21 +39,6 @@ module.exports = class extends Generator {
       },
       {
         type: "confirm",
-        name: "elmTypescriptInterop",
-        message:
-          "Would you like to add Elm-TypeScript-Interop? This is a nice to have but it can be a little buggy and outdated.",
-        default: false,
-        when: answers => answers.typescript
-      },
-      {
-        type: "confirm",
-        name: "customLoader",
-        message:
-          "The current maintainer for elm-webpack-loader on github seems to be AWOL, would you like to use a modified elm webpack loader, which includes vulnerability patches, debug mode in development and better  compression in production? (If you get 'ReferenceError: primordials is not defined' when building, this custom loader may fix the issue)",
-        default: false
-      },
-      {
-        type: "confirm",
         name: "spa",
         message:
           "Would you like to create a Single Page Application boilerplate?",
@@ -124,6 +109,7 @@ module.exports = class extends Generator {
         "elm-test": "0.19.1",
         "elm-analyse": "^0.16.5",
         "elm-hot-webpack-loader": "^1.1.6",
+        "elm-webpack-loader": "^6.0.1",
         "html-loader": "^0.5.5",
         "html-webpack-plugin": "^3.2.0",
         "mini-css-extract-plugin": "^0.9.0",
@@ -148,18 +134,6 @@ module.exports = class extends Generator {
       this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonTS);
     }
 
-    if (this.props.elmTypescriptInterop) {
-      let pkgJsonElmTsInterop = {
-        devDependencies: {
-          "elm-typescript-interop": "^0.0.15"
-        }
-      };
-      this.fs.extendJSON(
-        this.destinationPath("package.json"),
-        pkgJsonElmTsInterop
-      );
-    }
-
     if (this.props.sass) {
       let pkgJsonSass = {
         devDependencies: {
@@ -169,21 +143,6 @@ module.exports = class extends Generator {
       };
       this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonSass);
     }
-
-    let pkgJsonLoader = {
-      devDependencies: {
-        "elm-webpack-loader": "^6.0.1"
-      }
-    };
-    if (this.props.customLoader) {
-      pkgJsonLoader = {
-        devDependencies: {
-          "elm-webpack-loader": "https://github.com/Worble/elm-webpack-loader"
-        }
-      };
-    }
-
-    this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonLoader);
 
     if (this.props.serviceWorker || this.props.pwa) {
       let pkgJsonServiceWorker = {
@@ -211,22 +170,19 @@ module.exports = class extends Generator {
     // END DEPENDENCIES
 
     // START SCRIPTS
-    let tsInteropString = this.props.elmTypescriptInterop
-      ? "elm-typescript-interop && "
-      : "";
     let pkgJsonScripts = {
       scripts: {
-        dev: `${tsInteropString}webpack --config webpack.dev.js`,
-        serve: `${tsInteropString}webpack-dev-server -d --config webpack.dev.js --open`,
+        dev: `webpack --config webpack.dev.js`,
+        serve: `webpack-dev-server -d --config webpack.dev.js --open`,
         test: "elm-test",
-        prod: `${tsInteropString}webpack --config webpack.prod.js`
+        prod: `webpack --config webpack.prod.js`
       }
     };
 
     if (this.props.docker) {
       pkgJsonScripts.scripts[
         "docker-dev"
-      ] = `${tsInteropString}webpack-dev-server -d --config webpack.docker.js --open`;
+      ] = `webpack-dev-server -d --config webpack.docker.js --open`;
     }
 
     this.fs.extendJSON(this.destinationPath("package.json"), pkgJsonScripts);
@@ -240,7 +196,7 @@ module.exports = class extends Generator {
     let elmJson = {
       type: "application",
       "source-directories": ["src/elm"],
-      "elm-version": "0.19.0",
+      "elm-version": "0.19.1",
       dependencies: {
         direct: {
           "elm/browser": "1.0.1",
@@ -326,8 +282,7 @@ module.exports = class extends Generator {
         this.templatePath("src/index.ts"),
         this.destinationPath("src/index.ts"),
         {
-          sass: this.props.sass,
-          elmTypescriptInterop: this.props.elmTypescriptInterop
+          sass: this.props.sass
         }
       );
 
@@ -442,7 +397,6 @@ module.exports = class extends Generator {
       this.templatePath("README.md"),
       this.destinationPath("README.md"),
       {
-        customLoader: this.props.customLoader,
         typescript: this.props.typescript
       }
     );

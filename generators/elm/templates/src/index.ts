@@ -1,5 +1,5 @@
 "use strict";
-<% if (!elmTypescriptInterop) { %>// @ts-ignore <% } %>
+// @ts-ignore
 import { Elm } from "./elm/Main";
 <% if(sass) { %>import "./assets/sass/styles.scss";<% } else { %>import "./assets/css/styles.css";<% } %>
 

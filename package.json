@@ -1,6 +1,6 @@
 {
   "name": "@worble/generator-elm-webpack",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Generates a customizable Elm application",
   "homepage": "https://github.com/Worble/elm-yeoman#readme",
   "author": "Worble <rsc93@protonmail.com>",
