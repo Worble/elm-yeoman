@@ -47,10 +47,6 @@ module.exports = {
 			}),
 			new CopyWebpackPlugin([{
 					from: path.join(__dirname, 'static')
-			}])<% if (pwa || serviceWorker) { %>,
-			new GenerateSW({
-				clientsClaim: true,
-				skipWaiting: true,
-			}),<% } %>
+			}])
     ]
 };

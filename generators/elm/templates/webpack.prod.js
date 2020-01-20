@@ -79,7 +79,9 @@ module.exports = merge(common, {
       }
     })<% if (pwa || serviceWorker) { %>,
     new GenerateSW({
-      importWorkboxFrom: 'local'
+      importWorkboxFrom: 'local',
+	  clientsClaim: true,
+	  skipWaiting: true
     })<% } %><% if (compression) { %>,
     new CompressionPlugin({
       deleteOriginalAssets: true<% if (brotli) { %>,
